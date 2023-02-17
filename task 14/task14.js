@@ -56,5 +56,7 @@ function myFun(e) {
     table.style.display = "none";
     let obj2 = JSON.parse(localStorage.getItem(obj.email));
     name.value = obj2.name;
+    email.value = obj2.email;
+    pho.value = obj2.pho;
   }
 }
