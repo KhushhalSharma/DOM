@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Khushhal PromiseAll</title>
+  </head>
+
+  <body>
+    <script>
+      const posts = [
+        { title: "Post1", createdAt: new Date() },
+        { title: "Post2", createdAt: new Date() },
+      ];
+
+      function createPost(post) {
+        return new Promise((resolve, reject) => {
+          posts.push(post);
+          console.log(
+            `Before Creating ${
+              posts[posts.length - 1].title
+            }, user LastActivityTime = ${posts[posts.length - 1].createdAt}`
+          );
+          console.log(`After Creating ${posts[posts.length - 1].title}>>>>>`);
+          console.log(`Posts>>>`, posts);
+          resolve();
+        });
+      }
+
+      function updateLastUserActivityTime() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const userLastActivityTime = new Date().getTime();
+            console.log(`USER Last Activity time is - ${userLastActivityTime}`);
+            resolve();
+          }, 1000);
+        });
+      }
+
+      function printPosts() {
+        return new Promise((resolve, reject) => {
+          posts.forEach((post) => {
+            console.log(`${post.title}-${post.createdAt}`);
+          });
+          resolve();
+        });
+      }
+
+      function deletePosts() {
+        return new Promise((resolve, reject) => {
+          let deletePost = posts.pop();
+          resolve(deletePost);
+        });
+      }
+
+      Promise.all([
+        createPost({ title: "Post3", createdAt: new Date() }),
+        updateLastUserActivityTime(),
+      ]).then(() => {
+        printPosts().then(() => {
+          deletePosts().then((deletedPost) => {
+            console.log(`${deletedPost.title} is delete`);
+            printPosts();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
